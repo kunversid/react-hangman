@@ -5,11 +5,11 @@ import WrongLetters from "./components/WrongLetters";
 import Word from "./components/Word";
 import Popup from "./components/Popup";
 import Notification from "./components/Notification";
-import { showNotification as show } from "./helpers/helpers";
+import { showNotification as show, checkWin } from "./helpers/helpers";
 
 import "./App.css";
 
-const words = ["acyclovir", "azithromycin", "‎amoxicillin", "alemtuzumab"];
+const words = ["application", "programming", "interface", "wizard"];
 let selectedWord = words[Math.floor(Math.random() * words.length)];
 
 function App() {
@@ -43,6 +43,17 @@ function App() {
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [correctLetters, wrongLetters, playable]);
 
+  function playAgain() {
+    setPlayable(true);
+
+    // Empty Arrays
+    setCorrectLetters([]);
+    setWrongLetters([]);
+
+    const random = Math.floor(Math.random() * words.length);
+    selectedWord = words[random];
+  }
+
   return (
     <>
       <Header />
@@ -56,6 +67,7 @@ function App() {
         wrongLetters={wrongLetters}
         selectedWord={selectedWord}
         setPlayable={setPlayable}
+        playAgain={playAgain}
       />
       <Notification showNotification={showNotification} />
     </>
